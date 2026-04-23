@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private bool isGrounded;
 
     private bool isRunning;
+    private bool isJumping;
 
     [SerializeField] private Animator animator;
 
@@ -19,32 +20,45 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
 
     [Header("Jump")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundRadius = 0.2f;
+
+    [SerializeField] private LayerMask groundLayer;
 
     private Rigidbody2D rb;
 
     private SpriteRenderer _spriteRender;
 
-    private float stepTimer = 0f;
-    public float stepDelay = 1f; 
+    [SerializeField] private float stepTimer = 0f;
+    [SerializeField] public float stepDelay = 5f; 
 
-void HandleMovementAudio(float moveInput)
-{
-    if (moveInput != 0)
+    void HandleMovementAudio(float moveInput)
     {
-        stepTimer -= Time.deltaTime;
-
-        if (stepTimer <= 0f)
+        if (moveInput != 0)
         {
-            audioSource.Play();
-            stepTimer = stepDelay;
+            stepTimer -= Time.deltaTime;
+
+            if (stepTimer <= 0f)
+            {
+                audioSource.Play();
+                stepTimer = stepDelay;
+            }
+        }
+        else
+        {
+            stepTimer = 0f; 
+            audioSource.Stop();
         }
     }
-    else
+    
+    private void CheckGround()
     {
-        stepTimer = 0f; 
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position,
+            groundRadius,
+            groundLayer
+        );
     }
-}
-
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -55,6 +69,8 @@ void HandleMovementAudio(float moveInput)
     [Obsolete]
     private void Update()
     {
+
+        CheckGround();
         
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
@@ -93,49 +109,19 @@ void HandleMovementAudio(float moveInput)
         if (Keyboard.current.wKey.wasPressedThisFrame && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+
+            isJumping = true;
+        }
+        else
+        {
+            isJumping = false;
         }
 
         animator.SetBool("isRunning", isRunning);
+        animator.SetBool("isJumping", isJumping);
 
         HandleMovementAudio(move);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.isTrigger) return;
-
-        foreach (ContactPoint2D contact in collision.contacts)
-        {
-            if (contact.normal.y > 0.5f)
-            {
-                isGrounded = true;
-                break;
-            }
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.collider.isTrigger) return;
-
-        isGrounded = false;
-    }
-
-    void HandleMovementAudio(float moveInput)
-{
-    if (moveInput != 0)
-    {
-        stepTimer -= Time.deltaTime;
-
-        if (stepTimer <= 0f)
-        {
-            audioSource.Play();
-            stepTimer = stepDelay;
-        }
-    }
-    else
-    {
-        stepTimer = 0f; 
-    }
-}
+   
 }
