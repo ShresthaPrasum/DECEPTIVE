@@ -1,17 +1,20 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class Objectontouch: MonoBehaviour
+
+// I am used to this code now
+public class ObjectMoveOnTrigger : MonoBehaviour
 {
     public enum TouchAction
     {
         MoveObject,
+
         ToggleActiveState
     }
 
     public enum ActiveTouchMode
     {
         SetState,
+
         FlipState
     }
 
@@ -25,49 +28,46 @@ public class Objectontouch: MonoBehaviour
 
     [SerializeField] private TouchAction action = TouchAction.MoveObject;
 
-    [Header("Daya darwaja band karo")]
+    [Header("Kya bak rahe ho mader")]
 
     [SerializeField] private Transform moveTarget;
+
     [SerializeField] private Vector3 moveOffset = new Vector3(0f,0f,0f);
 
     [SerializeField] private float moveSpeed = 3f;
 
-    [SerializeField] private bool moveInLocalSpace = false;
+    [SerializeField] private bool moveInLocalSpace= false;
 
-    [SerializeField] private bool moveOnce = true;
+    [SerializeField] private bool moveOnce= true;
 
-    [SerializeField] private bool loopMovement= false;
+    [SerializeField] private bool loopMovement = false;
 
     [SerializeField] private bool moveForeverAfterFirstTouch = true;
-    
+
+    [Header("Toggle MADER")]
 
     [SerializeField] private GameObject targetObject;
 
+
     [SerializeField] private ActiveTouchMode activeTouchMode = ActiveTouchMode.SetState;
 
-    [SerializeField] private bool setActiveOntouch = true;
-    
+    [SerializeField] private bool setActiveOnTouch = true;
+
+    [Header("Reset")]
+
     [SerializeField] private bool resetOnPlayerExit = false;
 
+
     private Vector3 startPosition;
-
-    private Vector3 worldMoveOffset;
-
-    private Vector3 positiveLoopPosition;
-
-    private Vector3 negativeLoopPosition;
-
-    private Vector3 targetPosition;
-
-    private bool hasMoved;
-
-    private bool isMoving;
-
-    private bool movingToPositive;
-
-    private bool foreverMovementStarted;
-
-    private Transform resolvedMoveTarget;
+	private Vector3 worldMoveOffset;
+	private Vector3 positiveLoopPosition;
+	private Vector3 negativeLoopPosition;
+	private Vector3 targetPosition;
+	private bool hasMoved;
+	private bool isMoving;
+	private bool movingToPositive;
+	private bool foreverMovementStarted;
+	private Transform resolvedMoveTarget;
 
 
     public void Awake()
@@ -77,175 +77,264 @@ public class Objectontouch: MonoBehaviour
             targetObject = gameObject;
         }
 
-        resolvedMoveTarget = moveTarget != null ? moveTarget : (targetObject != null ?  targetObject.transform:transform);
+        resolvedMoveTarget = moveTarget != null  ? moveTarget : (targetObject != null ? targetObject.transform:transform);
 
         startPosition = resolvedMoveTarget.position;
+        worldMoveOffset = moveInLocalSpace ? resolvedMoveTarget.TransformVector(moveOffset) : moveOffset;
 
-        worldMoveOffset = moveInLocalSpace ? resolvedMoveTarget.TransformVector(moveOffset): moveOffset;
-
-        positiveLoopPosition = startPosition + worldMoveOffset;
+        positiveLoopPosition = startPosition+ worldMoveOffset;
 
         negativeLoopPosition = startPosition - worldMoveOffset;
-
-        targetPosition = positiveLoopPosition;
-
-        movingToPositive = true;
-
+        
+		targetPosition = positiveLoopPosition;
+		movingToPositive = true;
     }
+        private void Update()
+	{
+		if (!isMoving)
+		{
+			return;
+		}
 
-    private void Update()
-    {
-        if(!isMoving)
-        {
-            return;
-        }
+		if (resolvedMoveTarget == null)
+		{
+			isMoving = false;
 
-        if(resolvedMoveTarget == null)
-        {
-            isMoving = false;
-            return;
-        }
+			return;
+		}
 
-        resolvedMoveTarget.position = Vector3.MoveTowards(resolvedMoveTarget.position, targetPosition, moveSpeed * Time.deltaTime);
+		resolvedMoveTarget.position = Vector3.MoveTowards(resolvedMoveTarget.position, targetPosition, moveSpeed * Time.deltaTime);
 
-        if((resolvedMoveTarget.position - targetPosition).sqrMagnitude <= 0.0001f)
-        {
-            resolvedMoveTarget.position = targetPosition;
 
-            if(action == TouchAction.MoveObject && (loopMovement || foreverMovementStarted))
-            {
-                if (movingToPositive)
-                {
-                    targetPosition = negativeLoopPosition;
-                    movingToPositive = false;
-                }
 
-                else
-                {
-                    targetPosition = positiveLoopPosition;
+		if ((resolvedMoveTarget.position - targetPosition).sqrMagnitude <= 0.0001f)
+		{
+			resolvedMoveTarget.position = targetPosition;
 
-                    movingToPositive = true;
-                }
+			if (action == TouchAction.MoveObject && (loopMovement || foreverMovementStarted))
+			{
 
-                isMoving = true;
-                return;
-            }
+				if (movingToPositive)
+				{
+					targetPosition = negativeLoopPosition;
+					movingToPositive = false;
+				}
+				else
+                
 
-            isMoving = false;
+				{
+					targetPosition = positiveLoopPosition;
+					movingToPositive = true;
+				}
 
-            if(moveOnce)
-            {
-                hasMoved = true;
-            }
-        }
-    }
+				isMoving = true;
+				return;
+			}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        HandleTouch(other.gameObject);
-    }
 
-    private void OTriggerEnter2D(Collider2D other)
-    {
-        HandleTouch(other.gameObject);
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        HandleTouch(collision.gameObject);
-    }
+			isMoving = false;
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        HandleTouch(collision.gameObject);
-    }
+			if (moveOnce)
+			{
+				hasMoved = true;
+			}
+		}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if(!resetOnPlayerExit)
-        {
-            return;
-        }
 
-        if(moveForeverAfterFirstTouch && foreverMovementStarted)
-        {
-            return;
-        }
+	}
 
-        if(IsPlayer(other.gameObject))
-        {
-            ResetAction();
-        }
-    }
+	private void OnTriggerEnter(Collider other)
+	{
+		HandleTouch(other.gameObject);
+		
+	}
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (!resetOnPlayerExit)
-        {
-            return;
-        }
 
-        if(moveForeverAfterFirstTouch && foreverMovementStarted)
-        {
-            return;
-        }
-        if (IsPlayer(other.gameObject))
-        {
-            ResetAction();
-        }
-    }
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		HandleTouch(other.gameObject);
+	}
 
-    private void HandleTouch(GameObject touchedObject)
-    {
-        if (!IsPlayer(touchedObject))
-        {
-            return;
-        }
+	private void OnCollisionEnter(Collision collision)
+	{
+		HandleTouch(collision.gameObject);
+	}
 
-        if(action == TouchAction.MoveObject)
-        {
-            if(resolvedMoveTarget  == null)
-            {
-                return;
-            }
 
-            worldMoveOffset = moveInLocalSpace ? resolvedMoveTarget.TransformVector(moveOffset) : moveOffset;
 
-            positiveLoopPosition = startPosition + worldMoveOffset;
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		HandleTouch(collision.gameObject);
+	}
 
-            negativeLoopPosition = startPosition - worldMoveOffset;
+	private void OnTriggerExit(Collider other)
+	{
+		if (!resetOnPlayerExit)
+		{
+			return;
+		}
 
-            if (moveForeverAfterFirstTouch)
-            {
-                foreverMovementStarted =true;
-                targetPosition = positiveLoopPosition;
 
-                movingToPositive= true;
+		if (moveForeverAfterFirstTouch && foreverMovementStarted)
+		{
+			return;
+		}
 
-                isMoving =true;
-                return;
-            }
+		if (IsPlayer(other.gameObject))
+		{
+			ResetAction();
+		}
+	}
 
-            if(loopMovement)
-            {
-                targetPosition = positiveLoopPosition;
 
-                movingToPositive= true;
+	private void OnTriggerExit2D(Collider2D other)
+	{
+		if (!resetOnPlayerExit)
+		{
+			return;
+		}
 
-                isMoving= true;
-                return;
-            }
+		if (moveForeverAfterFirstTouch && foreverMovementStarted)
 
-            if(moveOnce && hasMoved)
-            {
-                return;
-            }
 
-            targetPosition = positiveLoopPosition;
+		{
+			return;
+		}
 
-            isMoving= true;
-            return;
-        }
+		if (IsPlayer(other.gameObject))
+		{
+			ResetAction();
+		}
+
+
+	}
+
+	private void HandleTouch(GameObject touchedObject)
+	{
+		if (!IsPlayer(touchedObject))
+		{
+			return;
+
+
+		}
+
+		if (action == TouchAction.MoveObject)
+		{
+			if (resolvedMoveTarget == null)
+			{
+				return;
+			}
+
+			worldMoveOffset = moveInLocalSpace ? resolvedMoveTarget.TransformVector(moveOffset) : moveOffset;
+			positiveLoopPosition = startPosition + worldMoveOffset;
+			negativeLoopPosition = startPosition - worldMoveOffset;
+
+			if (moveForeverAfterFirstTouch)
+			{
+				foreverMovementStarted = true;
+				targetPosition = positiveLoopPosition;
+				movingToPositive = true;
+				isMoving = true;
+
+
+				return;
+
+			}
+
+
+
+			if (loopMovement)
+			{
+				targetPosition = positiveLoopPosition;
+				movingToPositive = true;
+				isMoving = true;
+				return;
+			}
+
+
+
+			if (moveOnce && hasMoved)
+
+			{
+				return;
+			}
+
+			targetPosition = positiveLoopPosition;
+
+			isMoving = true;
+			return;
+
+
+		}
+
+		if (targetObject != null)
+		{
+			if (activeTouchMode == ActiveTouchMode.FlipState)
+			{
+
+				targetObject.SetActive(!targetObject.activeSelf);
+			}
+			else
+			{
+				targetObject.SetActive(setActiveOnTouch);
+			}
+		}
+	}
+
+
+	private bool IsPlayer(GameObject candidate)
+	{
+		if (candidate == null)
+
+
+		{
+			return false;
+		}
+
+		if (candidate.CompareTag(playerTag))
+		{
+			return true;
+		}
+
+
+		if (!allowParentTagCheck)
+		{
+
+			return false;
+		}
+
+		Transform current = candidate.transform.parent;
+		while (current != null)
+		{
+			if (current.CompareTag(playerTag))
+			{
+				return true;
+			}
+
+			current = current.parent;
+		}
+
+		return false;
+	}
+
+	private void ResetAction()
+	{
+		if (action == TouchAction.MoveObject)
+		{
+			if (resolvedMoveTarget != null)
+			{
+				resolvedMoveTarget.position = startPosition;
+
+			}
+			targetPosition = positiveLoopPosition;
+			movingToPositive = true;
+            
+            
+			foreverMovementStarted = false;
+			isMoving = false;
+
+		}
     }
 
 }
