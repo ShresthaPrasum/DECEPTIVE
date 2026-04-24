@@ -26,6 +26,7 @@ public class ObjectMoveOnTrigger : MonoBehaviour
 
     [Header("Action")]
 
+	[SerializeField] private AudioClip triggerClip;
     [SerializeField] private TouchAction action = TouchAction.MoveObject;
 
     [Header("Kya bak rahe ho mader")]
@@ -57,6 +58,8 @@ public class ObjectMoveOnTrigger : MonoBehaviour
 
     [SerializeField] private bool resetOnPlayerExit = false;
 
+	private AudioSource triggerSoundSource;
+
 
     private Vector3 startPosition;
 	private Vector3 worldMoveOffset;
@@ -69,9 +72,18 @@ public class ObjectMoveOnTrigger : MonoBehaviour
 	private bool foreverMovementStarted;
 	private Transform resolvedMoveTarget;
 
+	private bool hasPlayed = false;
+
 
     public void Awake()
     {
+
+		triggerSoundSource = GetComponent<AudioSource>();
+            if (triggerSoundSource == null)
+            {
+                triggerSoundSource = gameObject.AddComponent<AudioSource>();
+            }
+
         if(targetObject == null)
         {
             targetObject = gameObject;
@@ -147,6 +159,7 @@ public class ObjectMoveOnTrigger : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		HandleTouch(other.gameObject);
+
 		
 	}
 
@@ -154,6 +167,13 @@ public class ObjectMoveOnTrigger : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		HandleTouch(other.gameObject);
+
+		if(hasPlayed == false)
+		{
+			triggerSoundSource.PlayOneShot(triggerClip);
+			hasPlayed = true;	
+		}
+
 	}
 
 	private void OnCollisionEnter(Collision collision)
@@ -215,8 +235,6 @@ public class ObjectMoveOnTrigger : MonoBehaviour
 		if (!IsPlayer(touchedObject))
 		{
 			return;
-
-
 		}
 
 		if (action == TouchAction.MoveObject)

@@ -19,11 +19,20 @@ public class Player : MonoBehaviour
 
     [SerializeField] private AudioSource audioSource;
 
+    private AudioSource sourceJump;
+    private AudioSource sourceRestart;
+
+    [SerializeField] private AudioClip audioJump;
+    
+    [SerializeField] private AudioClip audioRestart;
+
     [Header("Jump")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundRadius = 0.2f;
 
     [SerializeField] private LayerMask groundLayer;
+
+    [SerializeField, Min(0.2f)] private float LoadDelay;
 
     private Rigidbody2D rb;
 
@@ -34,7 +43,7 @@ public class Player : MonoBehaviour
 
     void HandleMovementAudio(float moveInput)
     {
-        if (moveInput != 0)
+        if (moveInput != 0 && isGrounded == true)
         {
             stepTimer -= Time.deltaTime;
 
@@ -59,8 +68,25 @@ public class Player : MonoBehaviour
             groundLayer
         );
     }
+
+    public void RestartLevel()
+    {
+         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     void Awake()
     {
+        sourceJump = GetComponent<AudioSource>();
+            if (sourceJump == null)
+            {
+                sourceJump = gameObject.AddComponent<AudioSource>();
+            }
+
+        sourceRestart = GetComponent<AudioSource>();
+            if (sourceRestart == null)
+            {
+                sourceRestart = gameObject.AddComponent<AudioSource>();
+            }
+        
         rb = GetComponent<Rigidbody2D>();
 
         _spriteRender = GetComponent<SpriteRenderer>();
@@ -80,7 +106,10 @@ public class Player : MonoBehaviour
 
         if(Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            sourceRestart.PlayOneShot(audioRestart);
+
+            Invoke(nameof(RestartLevel), LoadDelay);
+           
         }
 
         float move = 0f;
@@ -110,6 +139,8 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
 
+            sourceJump.PlayOneShot(audioJump);
+
             isJumping = true;
         }
         else
@@ -123,5 +154,6 @@ public class Player : MonoBehaviour
         HandleMovementAudio(move);
     }
 
+    
    
 }
