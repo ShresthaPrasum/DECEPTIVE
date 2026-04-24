@@ -7,15 +7,21 @@ public class LevelLoader: MonoBehaviour
 
     [SerializeField] private string playerTag = "Player";
 
+// COOK COOKIN G COOKING
+
     [SerializeField] private bool allowParentTagCheck = true;
 
     [SerializeField] private bool useTrigger = true;
 
     [SerializeField,Min(0f)] private float loadDelay = 0f;
+    [SerializeField,Min(0f)] private float audioDelay = 0.2f;
 
     [SerializeField] private AudioClip outroSound;
+    [SerializeField] private AudioClip doorSound;
 
     private AudioSource audioClip;
+    private AudioSource doorClip;
+    private Animator animator;
 
     private bool hasLoaded;
 
@@ -26,6 +32,10 @@ public class LevelLoader: MonoBehaviour
             {
                 audioClip = gameObject.AddComponent<AudioSource>();
             }
+
+            animator = gameObject.GetComponent<Animator>();
+
+            doorClip = gameObject.AddComponent<AudioSource>();
     }
 
     private void LoadTargetScene()
@@ -37,14 +47,26 @@ public class LevelLoader: MonoBehaviour
     {
         if(!useTrigger) return;
 
-        Invoke(nameof(playSound), loadDelay - 1f);
-
         TryLoad(other.gameObject);
+
+        Invoke(nameof(playSound), audioDelay);
+
+        audioClip.PlayOneShot(outroSound);
+
+        if(other.CompareTag("Player"))
+        {
+            other.gameObject.SetActive(false);
+        }
+
+        animator.SetBool("isTouched", true);
+
     }
+
 
     private void playSound()
     {
-        audioClip.PlayOneShot(outroSound);
+
+        doorClip.PlayOneShot(doorSound);
     }
     private void TryLoad(GameObject candidate)
     {
