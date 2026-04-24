@@ -11,8 +11,11 @@ public class Player : MonoBehaviour
 
     private bool isRunning;
     private bool isJumping;
+    private bool hasSpawned = false;
 
     [SerializeField] private Animator animator;
+
+    [SerializeField] private GameObject spawnParticle;
 
     [SerializeField] private float moveSpeed= 4f; 
     [SerializeField] private float jumpForce= 7f; 
@@ -40,6 +43,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float stepTimer = 0f;
     [SerializeField] public float stepDelay = 5f; 
+    [SerializeField] public float spriteEnableDelay = 0.8f; 
 
     void HandleMovementAudio(float moveInput)
     {
@@ -90,12 +94,23 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         _spriteRender = GetComponent<SpriteRenderer>();
+
+        _spriteRender.enabled = false;
+
+        if(!hasSpawned)
+        {
+            spawnParticle.SetActive(true);
+            
+            Invoke(nameof(SpriteEnable), spriteEnableDelay);
+
+            hasSpawned = true;
+        }
+
     }
 
     [Obsolete]
     private void Update()
     {
-
         CheckGround();
         
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
@@ -152,6 +167,11 @@ public class Player : MonoBehaviour
         animator.SetBool("isJumping", isJumping);
 
         HandleMovementAudio(move);
+    }
+
+    private void SpriteEnable()
+    {
+        _spriteRender.enabled = true;
     }
 
     
