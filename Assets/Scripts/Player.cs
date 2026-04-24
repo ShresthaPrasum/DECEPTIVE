@@ -111,14 +111,9 @@ public class Player : MonoBehaviour
     [Obsolete]
     private void Update()
     {
+        
         CheckGround();
         
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            SceneManager.LoadScene("Home");
-            return;
-        }
-
         if(Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
         {
             sourceRestart.PlayOneShot(audioRestart);
