@@ -13,7 +13,20 @@ public class LevelLoader: MonoBehaviour
 
     [SerializeField,Min(0f)] private float loadDelay = 0f;
 
+    [SerializeField] private AudioClip outroSound;
+
+    private AudioSource audioClip;
+
     private bool hasLoaded;
+
+    private void Awake()
+    {
+        audioClip = GetComponent<AudioSource>();
+            if (audioClip == null)
+            {
+                audioClip = gameObject.AddComponent<AudioSource>();
+            }
+    }
 
     private void LoadTargetScene()
     {
@@ -24,9 +37,15 @@ public class LevelLoader: MonoBehaviour
     {
         if(!useTrigger) return;
 
+        Invoke(nameof(playSound), loadDelay - 1f);
+
         TryLoad(other.gameObject);
     }
 
+    private void playSound()
+    {
+        audioClip.PlayOneShot(outroSound);
+    }
     private void TryLoad(GameObject candidate)
     {
         if(hasLoaded) return;
