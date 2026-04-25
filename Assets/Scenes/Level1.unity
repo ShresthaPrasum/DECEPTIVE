@@ -845,6 +845,8 @@ MonoBehaviour:
   stepTimer: 0
   stepDelay: 0.3
   spriteEnableDelay: 0.4
+  escMenu: {fileID: 786657290}
+  audioClip: {fileID: 8300000, guid: 076cf99ad9c20b145bd21824271f77a4, type: 3}
 --- !u!95 &513351279
 Animator:
   serializedVersion: 7
@@ -6403,6 +6405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82da779833221334b9670baa31412cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Menu
+  showingMenu: 0
   escMenu: {fileID: 988558921}
   audioClip: {fileID: 8300000, guid: 076cf99ad9c20b145bd21824271f77a4, type: 3}
 --- !u!1 &819328051

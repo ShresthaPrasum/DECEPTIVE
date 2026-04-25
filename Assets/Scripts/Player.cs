@@ -45,6 +45,10 @@ public class Player : MonoBehaviour
     [SerializeField] public float stepDelay = 5f; 
     [SerializeField] public float spriteEnableDelay = 0.8f; 
 
+    [SerializeField] private GameObject escMenu;
+
+    
+    
     void HandleMovementAudio(float moveInput)
     {
         if (moveInput != 0 && isGrounded == true)
@@ -80,6 +84,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         sourceJump = GetComponent<AudioSource>();
+        
             if (sourceJump == null)
             {
                 sourceJump = gameObject.AddComponent<AudioSource>();
@@ -111,9 +116,12 @@ public class Player : MonoBehaviour
     [Obsolete]
     private void Update()
     {
-        
+    
+
         CheckGround();
+
         
+
         if(Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
         {
             sourceRestart.PlayOneShot(audioRestart);
