@@ -63,7 +63,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -93,6 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Objectontouch
   playerTag: Player
   allowParentTagCheck: 1
+  triggerClip: {fileID: 8300000, guid: 81ffb3353363d024fb871eae4d8c7812, type: 3}
   action: 0
   moveTarget: {fileID: 0}
   moveOffset: {x: -2, y: 0, z: 0}
@@ -103,5 +104,5 @@ MonoBehaviour:
   moveForeverAfterFirstTouch: 0
   targetObject: {fileID: 0}
   activeTouchMode: 0
-  setActiveOntouch: 1
+  setActiveOnTouch: 1
   resetOnPlayerExit: 0
