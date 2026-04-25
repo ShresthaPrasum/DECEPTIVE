@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject escMenu;
 
+    [SerializeField] private SpriteRenderer checkPoint;
+
     
     
     void HandleMovementAudio(float moveInput)
@@ -175,6 +177,7 @@ public class Player : MonoBehaviour
     private void SpriteEnable()
     {
         _spriteRender.enabled = true;
+        _spriteRender.transform.position = checkPoint.transform.position;
     }
 
     

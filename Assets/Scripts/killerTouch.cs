@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using FirstGearGames.SmoothCameraShaker;
 
 public class KillPlayer : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class KillPlayer : MonoBehaviour
     [SerializeField] private SpriteRenderer playerSprite;
 
     [SerializeField] private float loadDelay = 0.2f;
-    
+
+    public ShakeData CameraShaker;
+     
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -27,6 +30,7 @@ public class KillPlayer : MonoBehaviour
             audioSource.PlayOneShot(audioClip);
             playerSprite.enabled = false;
             particle.SetActive(true);
+            CameraShakerHandler.Shake(CameraShaker);
             Invoke(nameof(RestartLevel), loadDelay);
         }
     }
