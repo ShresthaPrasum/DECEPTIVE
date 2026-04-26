@@ -302,4 +302,4 @@ public class ObjectMoveOnTrigger : MonoBehaviour
             hasScaled = false;
         }
     }
-}
+}        
