@@ -200,6 +200,10 @@ PrefabInstance:
       propertyPath: playerSprite
       value: 
       objectReference: {fileID: 513351277}
+    - target: {fileID: 8187179491185059532, guid: facc334212d3d954996492181a817a7c, type: 3}
+      propertyPath: moveOffset.x
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
