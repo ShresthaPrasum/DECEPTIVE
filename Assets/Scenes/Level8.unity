@@ -200,9 +200,17 @@ PrefabInstance:
       propertyPath: playerSprite
       value: 
       objectReference: {fileID: 513351277}
+    - target: {fileID: 8144443717610479521, guid: facc334212d3d954996492181a817a7c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.962
+      objectReference: {fileID: 0}
+    - target: {fileID: 8187179491185059532, guid: facc334212d3d954996492181a817a7c, type: 3}
+      propertyPath: moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8187179491185059532, guid: facc334212d3d954996492181a817a7c, type: 3}
       propertyPath: moveOffset.x
-      value: 1
+      value: -10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12558,7 +12566,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6528207477260981746, guid: facc334212d3d954996492181a817a7c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1606395593}
   m_SourcePrefab: {fileID: 100100000, guid: facc334212d3d954996492181a817a7c, type: 3}
 --- !u!1 &1564590314
 GameObject:
@@ -12867,6 +12878,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588230043}
   m_CullTransparentMesh: 1
+--- !u!1 &1606395589 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6528207477260981746, guid: facc334212d3d954996492181a817a7c, type: 3}
+  m_PrefabInstance: {fileID: 1539377768}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1606395593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606395589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 064396312c936a54a8281e65e890fedd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::activeOrdeactive
+  targetObject: {fileID: 1723261077}
+  activate: 0
 --- !u!1 &1693674368
 GameObject:
   m_ObjectHideFlags: 0
@@ -12946,6 +12976,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1723261077 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 726539186617779675, guid: facc334212d3d954996492181a817a7c, type: 3}
+  m_PrefabInstance: {fileID: 1539377768}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1723261078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5321039554858914530, guid: facc334212d3d954996492181a817a7c, type: 3}
