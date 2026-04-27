@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class activeOrdeactive : MonoBehaviour
@@ -7,26 +8,30 @@ public class activeOrdeactive : MonoBehaviour
 
     [SerializeField] private bool activate;
 
-    private bool isActive;
+    private AudioSource audio;
+
+    [SerializeField] private AudioClip audioClip;
+
+    [SerializeField] private float loadDelay = 0.2f;
+
 
     private void Awake()
     {
-        isActive = targetObject.activeSelf;
+        audio = gameObject.AddComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if (!activate)
-            {
-                targetObject.SetActive(false);
-            }
-            else
-            {
-                targetObject.SetActive(false);
-            }
+            Invoke(nameof(Activeordeactive), loadDelay);
         }
         
+    }
+
+    private void Activeordeactive()
+    {
+        targetObject.SetActive(activate);
+        audio.PlayOneShot(audioClip);
     }
 }
