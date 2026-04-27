@@ -47,7 +47,7 @@ public class ObjectMotionController : MonoBehaviour
     [SerializeField] private Vector3 moveOffset = new Vector3(2f, 0f, 0f);
     [SerializeField] private float moveDuration = 2f;
 
-    [SerializeField] private bool startModeFromPositiveOffset = true;
+    [SerializeField] private bool startMoveFromPositiveOffset = true;
 
     [Header("Rotate")]
 
@@ -161,8 +161,153 @@ public class ObjectMotionController : MonoBehaviour
         return motionMode == MotionMode.Move|| motionMode == MotionMode.MoveAndRotate;
     }
 
+    private bool UsesRotate(){
+        return motionMode == MotionMode.Rotate || motionMode == MotionMode.MoveAndRotate;
+    }
+
     private void Tick(float deltaTime)
     {
-        
+        if(!isPlaying || deltaTime <= 0f)
+        {
+            return;
+        }
+
+        float moveT = 0f;
+        float rotateT = 0f;
+
+        if (UsesMove())
+        {
+            moveT = Advance(ref moveElapsed, moveDuration, ref moveForward, ref moveCompleted, deltaTime);
+        }
+
+        if (UsesRotate())
+        {
+            rotateT = Advance(ref rotateElapsed, rotateDuration, ref rotateForward, ref rotateCompleted, deltaTime);
+        }
+
+        ApplyTransform(moveT, rotateT);
+
+        if (loopmode == LoopMode.Once && (!UsesMove() || moveCompleted) && (!UsesRotate() || rotateCompleted))
+        {
+            isPlaying = false;
+        }
+    }
+
+    private float Advance(ref float elapsed, float duration, ref bool forward, ref bool completed, float deltaTime)
+    {
+        if(duration <= 0f)
+        {
+            completed = true;
+            return interpolationCurve.Evaluate(1f);
+        }
+
+        if(loopmode== LoopMode.Once && completed)
+        {
+            return interpolationCurve.Evaluate(1f);
+        }
+
+        float direction = forward ? 1f: -1f;
+        elapsed += deltaTime * direction;
+
+        if(loopmode == LoopMode.Once)
+        {
+            if(elapsed >= duration)
+            {
+                elapsed = duration;
+                completed = true;
+            }
+            else if(elapsed < 0f)
+            {
+                elapsed = 0f;
+            }
+
+
+        }
+        else if(loopmode == LoopMode.Loop)
+        {
+            while(elapsed >= duration)
+            {
+                elapsed -= duration;
+            }
+
+            while(elapsed < 0f)
+            {
+                elapsed += duration;
+            }
+        }
+
+        else
+        {
+            if(elapsed >= duration)
+            {
+                elapsed = duration;
+                forward = false;
+            }
+
+            else if(elapsed <= 0f)
+            {
+                elapsed = 0f;
+
+                forward = true;
+            }
+        }
+
+        float normalized = Mathf.Clamp01(elapsed / duration);
+        return interpolationCurve.Evaluate(normalized);
+    }
+
+    private void ApplyTransform(float moveT, float rotateT)
+    {
+        if (UsesMove())
+        {
+            float adjustedMoveT = moveT;
+            if(loopmode == LoopMode.Loop)
+            {
+                 adjustedMoveT = Mathf.PingPong(moveT * 2f,1f);
+            }
+
+            Vector3 positiveBound = initialPosition + moveOffset;
+
+            Vector3 negativeBound = initialPosition - moveOffset;
+
+            Vector3 from = startMoveFromPositiveOffset ? positiveBound : negativeBound;
+
+            Vector3 to = startMoveFromPositiveOffset ? negativeBound : positiveBound;
+
+            Vector3 nextPosition = Vector3.LerpUnclamped(from,to, adjustedMoveT);
+
+            if (useLocalSpace)
+            {
+                transform.localPosition = nextPosition;
+            }
+            else
+            {
+                transform.position = nextPosition;
+            }
+        }
+        if (UsesRotate())
+        {
+            Quaternion targetRotation = initialRotation * Quaternion.Euler(rotationOffsetEuler);
+
+            Quaternion nextRotation = Quaternion.SlerpUnclamped(initialRotation, targetRotation, rotateT);
+
+
+            if (useLocalSpace)
+            {
+                transform.localRotation = nextRotation;
+            }
+
+            else
+            {
+                transform.rotation = nextRotation;
+            }
+        }
+    }
+
+    private void OnValidate()
+    {
+        moveDuration = Mathf.Max(0f,moveDuration);
+
+        rotateDuration = Mathf.Max(0f, rotateDuration);
     }
 } 
