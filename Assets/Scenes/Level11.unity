@@ -13082,22 +13082,6 @@ MonoBehaviour:
   activate: 1
   audioClip: {fileID: 8300000, guid: 81ffb3353363d024fb871eae4d8c7812, type: 3}
   loadDelay: 1.05
---- !u!114 &1368223041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368223020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064396312c936a54a8281e65e890fedd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::activeOrdeactive
-  targetObject: {fileID: 1368223020}
-  activate: 0
-  audioClip: {fileID: 8300000, guid: 81ffb3353363d024fb871eae4d8c7812, type: 3}
-  loadDelay: 2.4
 --- !u!1 &1429878482 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 726539186617779675, guid: facc334212d3d954996492181a817a7c, type: 3}
@@ -13719,7 +13703,6 @@ GameObject:
   - component: {fileID: 1634016383}
   - component: {fileID: 1634016382}
   - component: {fileID: 1634016381}
-  - component: {fileID: 1634016411}
   m_Layer: 0
   m_Name: Trigger (2)
   m_TagString: Untagged
@@ -15370,22 +15353,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1634016411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1634016380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064396312c936a54a8281e65e890fedd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::activeOrdeactive
-  targetObject: {fileID: 1634016380}
-  activate: 0
-  audioClip: {fileID: 8300000, guid: 81ffb3353363d024fb871eae4d8c7812, type: 3}
-  loadDelay: 2.7
 --- !u!1 &1684848811 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 726539186617779675, guid: facc334212d3d954996492181a817a7c, type: 3}
@@ -16676,9 +16643,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5696733869791918440, guid: 5417b0c9b5fddae4387100d5a3bb2d11, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1368223031}
-    - targetCorrespondingSourceObject: {fileID: 5696733869791918440, guid: 5417b0c9b5fddae4387100d5a3bb2d11, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1368223041}
   m_SourcePrefab: {fileID: 100100000, guid: 5417b0c9b5fddae4387100d5a3bb2d11, type: 3}
 --- !u!1 &2132826195
 GameObject:
