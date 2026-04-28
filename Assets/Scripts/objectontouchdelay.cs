@@ -90,7 +90,7 @@ public class ObjectMoveOnTriggerDelay : MonoBehaviour
                 if (loopMovement || foreverMovementStarted)
                 {
                     if (movingToPositive) { targetPosition = negativeLoopPosition; movingToPositive = false; }
-                    else { targetPosition = positiveLoopPosition; movingToPositive = true; }
+                    else                  { targetPosition = positiveLoopPosition;  movingToPositive = true;  }
                     return;
                 }
 
@@ -112,14 +112,10 @@ public class ObjectMoveOnTriggerDelay : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other) => HandleTouch(other.gameObject);
+    private void OnTriggerEnter(Collider other)        => HandleTouch(other.gameObject);
+    private void OnTriggerEnter2D(Collider2D other)    => HandleTouch(other.gameObject);
     private void OnCollisionEnter(Collision collision) => HandleTouch(collision.gameObject);
-    private void OnCollisionEnter2D(Collision2D col) => HandleTouch(col.gameObject);
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        HandleTouch(other.gameObject);
-    }
+    private void OnCollisionEnter2D(Collision2D col)   => HandleTouch(col.gameObject);
 
     private void OnTriggerExit(Collider other)
     {
@@ -139,20 +135,20 @@ public class ObjectMoveOnTriggerDelay : MonoBehaviour
     {
         if (!IsPlayer(touchedObject)) return;
 
-        if (actionDelay > 0f)
-        {
-            if (delayCoroutine == null)
-                delayCoroutine = StartCoroutine(ExecuteActionWithDelay());
-        }
-        else
-        {
-            ExecuteAction();
-        }
+        
+        if (delayCoroutine == null)
+            delayCoroutine = StartCoroutine(ExecuteActionWithDelay());
     }
 
     private IEnumerator ExecuteActionWithDelay()
     {
+        
+        
         yield return new WaitForSeconds(actionDelay);
+
+        
+        InitializeState();
+
         ExecuteAction();
         delayCoroutine = null;
     }
@@ -161,20 +157,19 @@ public class ObjectMoveOnTriggerDelay : MonoBehaviour
     {
         if (initialized) return;
 
-        startPosition = resolvedMoveTarget.position;
-        startScale = resolvedMoveTarget.localScale;
-        worldMoveOffset = moveInLocalSpace ? resolvedMoveTarget.TransformVector(moveOffset) : moveOffset;
+        startPosition        = resolvedMoveTarget.position;
+        startScale           = resolvedMoveTarget.localScale;
+        worldMoveOffset      = moveInLocalSpace ? resolvedMoveTarget.TransformVector(moveOffset) : moveOffset;
         positiveLoopPosition = startPosition + worldMoveOffset;
         negativeLoopPosition = startPosition - worldMoveOffset;
-        targetPosition = positiveLoopPosition;
-        movingToPositive = true;
-        initialized = true;
+        targetPosition       = positiveLoopPosition;
+        movingToPositive     = true;
+        initialized          = true;
     }
 
     private void ExecuteAction()
     {
-        InitializeState();
-
+        
         if (!hasPlayed)
         {
             triggerSoundSource.PlayOneShot(triggerClip);
@@ -185,31 +180,31 @@ public class ObjectMoveOnTriggerDelay : MonoBehaviour
         {
             if (resolvedMoveTarget == null) return;
 
-            worldMoveOffset = moveInLocalSpace ? resolvedMoveTarget.TransformVector(moveOffset) : moveOffset;
+            worldMoveOffset      = moveInLocalSpace ? resolvedMoveTarget.TransformVector(moveOffset) : moveOffset;
             positiveLoopPosition = startPosition + worldMoveOffset;
             negativeLoopPosition = startPosition - worldMoveOffset;
 
             if (moveForeverAfterFirstTouch)
             {
                 foreverMovementStarted = true;
-                targetPosition = positiveLoopPosition;
-                movingToPositive = true;
-                isMoving = true;
+                targetPosition         = positiveLoopPosition;
+                movingToPositive       = true;
+                isMoving               = true;
                 return;
             }
 
             if (loopMovement)
             {
-                targetPosition = positiveLoopPosition;
+                targetPosition   = positiveLoopPosition;
                 movingToPositive = true;
-                isMoving = true;
+                isMoving         = true;
                 return;
             }
 
             if (moveOnce && hasMoved) return;
 
             targetPosition = positiveLoopPosition;
-            isMoving = true;
+            isMoving       = true;
             return;
         }
 
@@ -255,6 +250,7 @@ public class ObjectMoveOnTriggerDelay : MonoBehaviour
             delayCoroutine = null;
         }
 
+        
         initialized = false;
 
         if (action == TouchAction.MoveObject)
@@ -262,10 +258,10 @@ public class ObjectMoveOnTriggerDelay : MonoBehaviour
             if (resolvedMoveTarget != null)
                 resolvedMoveTarget.position = startPosition;
 
-            targetPosition = positiveLoopPosition;
-            movingToPositive = true;
+            targetPosition         = positiveLoopPosition;
+            movingToPositive       = true;
             foreverMovementStarted = false;
-            isMoving = false;
+            isMoving               = false;
         }
         else if (action == TouchAction.ScaleObject)
         {
