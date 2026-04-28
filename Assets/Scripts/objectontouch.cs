@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections; 
 
 
 public class ObjectMoveOnTrigger : MonoBehaviour
@@ -23,6 +24,10 @@ public class ObjectMoveOnTrigger : MonoBehaviour
     [Header("Action")]
     [SerializeField] private AudioClip triggerClip;
     [SerializeField] private TouchAction action = TouchAction.MoveObject;
+
+    [Header("Delay Settings")]
+    [Tooltip("Time in seconds to wait before the action starts.")]
+    [SerializeField] private float actionDelay = 0f;
 
     [Header("Kya bak rahe ho mader")]
     [SerializeField] private Transform moveTarget;
@@ -69,6 +74,8 @@ public class ObjectMoveOnTrigger : MonoBehaviour
     private Transform resolvedMoveTarget;
     private bool hasPlayed = false;
 
+    private Coroutine delayCoroutine; 
+
     public void Awake()
     {
         triggerSoundSource = GetComponent<AudioSource>();
@@ -83,7 +90,6 @@ public class ObjectMoveOnTrigger : MonoBehaviour
         }
 
         resolvedMoveTarget = moveTarget != null ? moveTarget : (targetObject != null ? targetObject.transform : transform);
-
         
         startPosition = resolvedMoveTarget.position;
         worldMoveOffset = moveInLocalSpace ? resolvedMoveTarget.TransformVector(moveOffset) : moveOffset;
@@ -91,7 +97,6 @@ public class ObjectMoveOnTrigger : MonoBehaviour
         negativeLoopPosition = startPosition - worldMoveOffset;
         targetPosition = positiveLoopPosition;
         movingToPositive = true;
-
         
         startScale = resolvedMoveTarget.localScale;
     }
@@ -99,7 +104,6 @@ public class ObjectMoveOnTrigger : MonoBehaviour
     private void Update()
     {
         if (resolvedMoveTarget == null) return;
-
         
         if (action == TouchAction.MoveObject && isMoving)
         {
@@ -133,7 +137,6 @@ public class ObjectMoveOnTrigger : MonoBehaviour
                 }
             }
         }
-        
         else if (action == TouchAction.ScaleObject && isScaling)
         {
             resolvedMoveTarget.localScale = Vector3.MoveTowards(resolvedMoveTarget.localScale, calculatedTargetScale, scaleRate * Time.deltaTime);
@@ -160,6 +163,7 @@ public class ObjectMoveOnTrigger : MonoBehaviour
     {
         HandleTouch(other.gameObject);
 
+        
         if (hasPlayed == false)
         {
             triggerSoundSource.PlayOneShot(triggerClip);
@@ -203,7 +207,33 @@ public class ObjectMoveOnTrigger : MonoBehaviour
     {
         if (!IsPlayer(touchedObject)) return;
 
+        if (actionDelay > 0f)
+        {
+            
+            if (delayCoroutine == null)
+            {
+                delayCoroutine = StartCoroutine(ExecuteActionWithDelay());
+            }
+        }
+        else
+        {
+            
+            ExecuteAction();
+        }
+    }
+
+    private IEnumerator ExecuteActionWithDelay()
+    {
         
+        yield return new WaitForSeconds(actionDelay);
+        
+        
+        ExecuteAction();
+        delayCoroutine = null;
+    }
+
+    private void ExecuteAction()
+    {
         if (action == TouchAction.MoveObject)
         {
             if (resolvedMoveTarget == null) return;
@@ -235,20 +265,17 @@ public class ObjectMoveOnTrigger : MonoBehaviour
             isMoving = true;
             return;
         }
-
         
         if (action == TouchAction.ScaleObject)
         {
             if (resolvedMoveTarget == null) return;
             if (scaleOnce && hasScaled) return;
-
             
             calculatedTargetScale = startScale + scaleAmountToAdd;
 
             isScaling = true;
             return;
         }
-
         
         if (action == TouchAction.ToggleActiveState && targetObject != null)
         {
@@ -281,6 +308,13 @@ public class ObjectMoveOnTrigger : MonoBehaviour
 
     private void ResetAction()
     {
+        
+        if (delayCoroutine != null)
+        {
+            StopCoroutine(delayCoroutine);
+            delayCoroutine = null;
+        }
+
         if (action == TouchAction.MoveObject)
         {
             if (resolvedMoveTarget != null)
@@ -302,4 +336,4 @@ public class ObjectMoveOnTrigger : MonoBehaviour
             hasScaled = false;
         }
     }
-}        
+}

@@ -73,6 +73,11 @@ public class ObjectMotionController : MonoBehaviour
 
     private bool isPlaying;
 
+
+    private void Awake()
+    {
+        Getthecurrentposition();
+    }
     private void OnEnable()
     {
         if (playOnStart)
