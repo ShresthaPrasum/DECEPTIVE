@@ -24,7 +24,6 @@ public class OppositePlayer : MonoBehaviour
 
     [SerializeField] private AudioSource audioSource;
 
-    private AudioSource sourceJump;
     private AudioSource sourceRestart;
 
     
@@ -49,7 +48,7 @@ public class OppositePlayer : MonoBehaviour
     
     void HandleMovementAudio(float moveInput)
     {
-        if (moveInput != 0 && isGrounded == true)
+        if (moveInput != 0)
         {
             stepTimer -= Time.deltaTime;
 

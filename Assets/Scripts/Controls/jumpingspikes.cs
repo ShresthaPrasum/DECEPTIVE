@@ -10,6 +10,9 @@ public class jumpingSpikes : MonoBehaviour
     [SerializeField] private float jumpForce= 7f; 
 
     [Header("Jump")]
+    private AudioSource sourceJump;
+
+    [SerializeField] private AudioClip audioJump;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundRadius = 0.06f;
 
@@ -25,6 +28,13 @@ public class jumpingSpikes : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        sourceJump = GetComponent<AudioSource>();
+        
+            if (sourceJump == null)
+            {
+                sourceJump = gameObject.AddComponent<AudioSource>();
+            }
     }
 
     [Obsolete]
@@ -35,6 +45,8 @@ public class jumpingSpikes : MonoBehaviour
         if (Keyboard.current.wKey.wasPressedThisFrame && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+
+            sourceJump.PlayOneShot(audioJump);
         }
     }
 }
