@@ -45,8 +45,6 @@ public class jumpingSpikes : MonoBehaviour
         if (Keyboard.current.wKey.wasPressedThisFrame && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-
-            sourceJump.PlayOneShot(audioJump);
         }
     }
 }

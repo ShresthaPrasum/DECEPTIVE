@@ -1076,6 +1076,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   animator: {fileID: 513351279}
+  right: 18
+  left: 15
   spawnParticle: {fileID: 535996062}
   moveSpeed: 3
   jumpForce: 7
@@ -6519,7 +6521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa7d89cbb81a230468b85bc31101ef22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelLoader
-  nextSceneName: Level6
+  nextSceneName: Level11
   playerTag: Player
   allowParentTagCheck: 1
   useTrigger: 1

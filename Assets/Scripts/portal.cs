@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,10 @@ public class LevelLoader: MonoBehaviour
     [SerializeField] private AudioClip outroSound;
     [SerializeField] private AudioClip doorSound;
 
+    private int nextSceneBuildIndex;
+
+    private int LevelAT;
+
     private AudioSource audioClip;
     private AudioSource doorClip;
     private Animator animator;
@@ -36,11 +41,14 @@ public class LevelLoader: MonoBehaviour
             animator = gameObject.GetComponent<Animator>();
 
             doorClip = gameObject.AddComponent<AudioSource>();
+
+            nextSceneBuildIndex = SceneManager.GetActiveScene().buildIndex + 1;
     }
 
     private void LoadTargetScene()
     {
         SceneManager.LoadScene(nextSceneName);
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -59,6 +67,14 @@ public class LevelLoader: MonoBehaviour
         }
 
         animator.SetBool("isTouched", true);
+
+        SceneManager.GetSceneByName(nextSceneName);
+
+        if(nextSceneBuildIndex > PlayerPrefs.GetInt("LevelAt"))
+        {
+            PlayerPrefs.SetInt("levelAt", nextSceneBuildIndex);          
+        }
+
 
     }
 

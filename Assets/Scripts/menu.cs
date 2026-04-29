@@ -78,7 +78,7 @@ public class Menu : MonoBehaviour
 
     public void LevelMenu()
     {
-        SceneManager.LoadScene("LevelMenu");
+        SceneManager.LoadScene("levels");
     }
 
     public void AudioPlay()
