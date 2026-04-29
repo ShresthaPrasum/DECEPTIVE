@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
+    [SerializeField] private Key right = Key.D;
+    [SerializeField] private Key left = Key.A;
+
     [SerializeField] private GameObject spawnParticle;
 
     [SerializeField] private float moveSpeed= 4f; 
@@ -134,13 +137,13 @@ public class Player : MonoBehaviour
 
         float move = 0f;
 
-        if (Keyboard.current.aKey.isPressed)
+        if (Keyboard.current[left].isPressed)
         {
             _spriteRender.flipX = false;
             move = -1f;
             isRunning = true;
         }
-        else if (Keyboard.current.dKey.isPressed)
+        else if (Keyboard.current[right].isPressed)
         {
             _spriteRender.flipX= true;
             move = 1f;

@@ -789,8 +789,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   animator: {fileID: 513351279}
-  right: 15
-  left: 18
   spawnParticle: {fileID: 535996062}
   moveSpeed: 3
   jumpForce: 7
