@@ -15,8 +15,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
-    [SerializeField] private Key right = Key.D;
-    [SerializeField] private Key left = Key.A;
+    [SerializeField] public Key right = Key.D;
+    [SerializeField] public Key left = Key.A;
 
     [SerializeField] private GameObject spawnParticle;
 
