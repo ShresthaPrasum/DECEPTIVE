@@ -130,6 +130,19 @@ public class ObjectMoveOnTriggerDelay : MonoBehaviour
         if (moveForeverAfterFirstTouch && foreverMovementStarted) return;
         if (IsPlayer(other.gameObject)) ResetAction();
     }
+    private void OnCollisionExit(Collision other)
+    {
+        if (!resetOnPlayerExit) return;
+        if (moveForeverAfterFirstTouch && foreverMovementStarted) return;
+        if (IsPlayer(other.gameObject)) ResetAction();
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (!resetOnPlayerExit) return;
+        if (moveForeverAfterFirstTouch && foreverMovementStarted) return;
+        if (IsPlayer(other.gameObject)) ResetAction();
+    }
 
     private void HandleTouch(GameObject touchedObject)
     {
