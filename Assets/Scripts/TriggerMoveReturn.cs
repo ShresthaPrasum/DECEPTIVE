@@ -54,6 +54,8 @@ public class TriggerMoveReturn : MonoBehaviour
 
         hasTriggered = true;
 
+        startPosition = useLocalPosition ? moveTarget.localPosition : moveTarget.position;
+
         if (moveCoroutine != null)
         {
             StopCoroutine(moveCoroutine);
