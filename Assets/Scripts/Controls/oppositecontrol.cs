@@ -7,7 +7,7 @@ public class ChangeControl : MonoBehaviour
 {
     public GameObject playerObject;
 
-    private bool enabled = false;
+    private new bool enabled = false;
 
     [SerializeField] public Key right = Key.D;
     [SerializeField] public Key left = Key.A;
