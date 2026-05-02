@@ -5,7 +5,7 @@ using UnityEngine;
 public class Warpe : MonoBehaviour
 {
     public Transform destination;
-    [SerializeField] private float teleportDelay = 0.25f;
+    [SerializeField] private float teleportDelay = 0.2f;
 
     [SerializeField] private AudioClip audioClip;
 
