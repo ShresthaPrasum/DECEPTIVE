@@ -184,7 +184,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: b410575cc27a10046bb8048b83491380, type: 3}
   particle: {fileID: 959741792}
   playerSprite: {fileID: 513351277}
-  loadDelay: 0.2
+  loadDelay: 0.4
   CameraShaker: {fileID: 11400000, guid: cfb5721468f522e4984b6e517151f6d8, type: 2}
 --- !u!61 &45193905
 BoxCollider2D:
@@ -393,7 +393,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: b410575cc27a10046bb8048b83491380, type: 3}
   particle: {fileID: 959741792}
   playerSprite: {fileID: 513351277}
-  loadDelay: 0.2
+  loadDelay: 0.4
   CameraShaker: {fileID: 11400000, guid: cfb5721468f522e4984b6e517151f6d8, type: 2}
 --- !u!61 &134640270
 BoxCollider2D:
@@ -466,7 +466,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: b410575cc27a10046bb8048b83491380, type: 3}
   particle: {fileID: 959741792}
   playerSprite: {fileID: 513351277}
-  loadDelay: 0.2
+  loadDelay: 0.4
   CameraShaker: {fileID: 11400000, guid: cfb5721468f522e4984b6e517151f6d8, type: 2}
 --- !u!61 &138092454
 BoxCollider2D:
@@ -614,7 +614,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: b410575cc27a10046bb8048b83491380, type: 3}
   particle: {fileID: 959741792}
   playerSprite: {fileID: 513351277}
-  loadDelay: 0.2
+  loadDelay: 0.4
   CameraShaker: {fileID: 11400000, guid: cfb5721468f522e4984b6e517151f6d8, type: 2}
 --- !u!61 &276253947
 BoxCollider2D:
@@ -687,7 +687,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: b410575cc27a10046bb8048b83491380, type: 3}
   particle: {fileID: 959741792}
   playerSprite: {fileID: 513351277}
-  loadDelay: 0.2
+  loadDelay: 0.4
   CameraShaker: {fileID: 11400000, guid: cfb5721468f522e4984b6e517151f6d8, type: 2}
 --- !u!61 &396582229
 BoxCollider2D:
@@ -12437,7 +12437,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: b410575cc27a10046bb8048b83491380, type: 3}
   particle: {fileID: 959741792}
   playerSprite: {fileID: 513351277}
-  loadDelay: 0.2
+  loadDelay: 0.4
   CameraShaker: {fileID: 11400000, guid: cfb5721468f522e4984b6e517151f6d8, type: 2}
 --- !u!61 &1045056312
 BoxCollider2D:
@@ -12641,7 +12641,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: b410575cc27a10046bb8048b83491380, type: 3}
   particle: {fileID: 959741792}
   playerSprite: {fileID: 513351277}
-  loadDelay: 0.2
+  loadDelay: 0.4
   CameraShaker: {fileID: 11400000, guid: cfb5721468f522e4984b6e517151f6d8, type: 2}
 --- !u!61 &1148925554
 BoxCollider2D:
@@ -14061,7 +14061,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: b410575cc27a10046bb8048b83491380, type: 3}
   particle: {fileID: 959741792}
   playerSprite: {fileID: 513351277}
-  loadDelay: 0.2
+  loadDelay: 0.4
   CameraShaker: {fileID: 11400000, guid: cfb5721468f522e4984b6e517151f6d8, type: 2}
 --- !u!61 &1544688925
 BoxCollider2D:
@@ -15145,7 +15145,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: b410575cc27a10046bb8048b83491380, type: 3}
   particle: {fileID: 959741792}
   playerSprite: {fileID: 513351277}
-  loadDelay: 0.2
+  loadDelay: 0.4
   CameraShaker: {fileID: 11400000, guid: cfb5721468f522e4984b6e517151f6d8, type: 2}
 --- !u!61 &1926820786
 BoxCollider2D:
