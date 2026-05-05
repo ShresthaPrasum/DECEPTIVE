@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,8 +22,6 @@ public class LevelLoader: MonoBehaviour
     [SerializeField] private AudioClip doorSound;
 
     private int nextSceneBuildIndex;
-
-    private int LevelAT;
 
     private AudioSource audioClip;
     private AudioSource doorClip;
@@ -70,9 +69,13 @@ public class LevelLoader: MonoBehaviour
 
         SceneManager.GetSceneByName(nextSceneName);
 
-        if(nextSceneBuildIndex > PlayerPrefs.GetInt("LevelAt"))
+        if (TryGetLevelNumber(nextSceneName, out int nextLevelNumber))
         {
-            PlayerPrefs.SetInt("levelAt", nextSceneBuildIndex);          
+            int levelAt = PlayerPrefs.GetInt("levelAt", 2);
+            if (nextLevelNumber > levelAt)
+            {
+                PlayerPrefs.SetInt("levelAt", nextLevelNumber);
+            }
         }
 
 
@@ -127,5 +130,15 @@ public class LevelLoader: MonoBehaviour
             }
         }
         return false;
+    }
+
+    private bool TryGetLevelNumber(string sceneName, out int levelNumber)
+    {
+        levelNumber = 0;
+        if (string.IsNullOrWhiteSpace(sceneName)) return false;
+        if (!sceneName.StartsWith("Level", StringComparison.OrdinalIgnoreCase)) return false;
+
+        string numberPart = sceneName.Substring("Level".Length);
+        return int.TryParse(numberPart, out levelNumber);
     }
 }
