@@ -1239,16 +1239,6 @@ MonoBehaviour:
   - {fileID: 139049512}
   - {fileID: 19774603}
   - {fileID: 1274410280}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   levelOffset: 40
 --- !u!4 &483388831
 Transform:
